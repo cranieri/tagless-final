@@ -17,4 +17,15 @@ object Example extends App{
     case Success(paymentSubmission) => println(s"payment id: ${paymentSubmission.id}")
     case Failure(t) => println("An error has occurred: " + t.getMessage)
   })
+
+
+  val paymentSubmissionProgram2: PaymentSubmissionProgram[FutureOfEither] = new PaymentSubmissionProgram(PaymentSubmissionInterpreterEt)
+
+  val prog2 = paymentSubmissionProgram2.run(PaymentSubmission("123", 10000, ""))
+
+  prog2.value.onComplete({
+    case Success(Right(paymentSubmission)) => println(s"payment id: ${paymentSubmission.id}")
+    case Failure(t) => println("An error has occurred: " + t.getMessage)
+  })
+
 }
